@@ -22,6 +22,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://nurvatech.com'),
   title: 'Nurvatech - End-to-End Software Development & Testing Services',
   description: 'Professional IT services company specializing in software development, web applications, mobile apps, backend systems, DevOps, and comprehensive software testing solutions.',
   keywords: 'software development, web development, mobile apps, backend development, DevOps, software testing, automation testing, Selenium, React, Node.js, .NET, Python',
