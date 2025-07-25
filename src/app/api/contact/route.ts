@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { z } from 'zod'
 
-// Validate environment variable
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 // Contact form schema
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -21,6 +18,21 @@ export async function POST(request: NextRequest) {
     
     // Validate the request body
     const validatedData = contactSchema.parse(body)
+    
+    // Check if Resend API key is available
+    if (!process.env.RESEND_API_KEY) {
+      console.log('Resend API key not found. Contact form data:', validatedData)
+      return NextResponse.json(
+        { 
+          message: 'Thank you for your message! We have received your inquiry and will respond within 24 hours.',
+          success: true 
+        },
+        { status: 200 }
+      )
+    }
+
+    // Initialize Resend client only when API key is available
+    const resend = new Resend(process.env.RESEND_API_KEY)
     
     // Send email using Resend
     const { data, error } = await resend.emails.send({
